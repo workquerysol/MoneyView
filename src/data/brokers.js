@@ -1,0 +1,32 @@
+export const BROKERS = [
+  {
+    id: 'angelone',
+    name: 'Angel One',
+    tagline: 'India\'s most trusted stockbroker',
+    description: 'Open a free Demat & trading account. Access stocks, F&O, IPO, mutual funds, and more with Angel One\'s award-winning platform.',
+    referralUrl: 'https://www.angelone.in/open-demat-account?referral_code=XYZ123',
+    color: '#E65100',
+    features: ['Zero AMC for 1st Year', 'Free Research Reports', '24/7 Support', 'Advanced Charting'],
+    logo: 'AO',
+  },
+  {
+    id: 'sharekhan',
+    name: 'Sharekhan',
+    tagline: 'Your guide to the financial universe',
+    description: 'One of India\'s leading full-service brokers with 20+ years of experience. Expert advisory, online trading, and wealth management.',
+    referralUrl: 'https://www.sharekhan.com/open-an-account?ref=XYZ456',
+    color: '#1565C0',
+    features: ['Expert Advisory', 'Research Backed', 'Portfolio Tracker', 'Mobile Trading'],
+    logo: 'SK',
+  },
+  {
+    id: 'motilal',
+    name: 'Motilal Oswal',
+    tagline: 'Research. Invest. Grow.',
+    description: 'India\'s leading financial services company offering stock broking, PMS, mutual funds, and wealth management for 35+ years.',
+    referralUrl: 'https://www.motilaloswal.com/open-demat-account/?referral=XYZ789',
+    color: '#6A1B9A',
+    features: ['MOAMC Mutual Funds', 'PMS Services', 'Research Excellence', 'Digital First'],
+    logo: 'MO',
+  },
+]
