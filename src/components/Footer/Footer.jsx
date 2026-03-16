@@ -1,9 +1,9 @@
 import React from 'react'
 import {
-  Box, Container, Grid, Typography, Link as MuiLink, Divider, IconButton, TextField, Button, Stack,
+  Box, Container, Grid, Typography, Link as MuiLink, Divider, IconButton, Stack,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { Facebook, TrendingUp, ArrowForward } from '@mui/icons-material'
+import { Facebook, Twitter, LinkedIn, TrendingUp } from '@mui/icons-material'
 import { motion } from 'framer-motion'
 
 const FOOTER_LINKS = {
@@ -61,12 +61,27 @@ export default function Footer() {
                 href="https://www.facebook.com"
                 target="_blank"
                 rel="noopener"
-                sx={{
-                  color: '#fff', background: 'rgba(255,255,255,0.08)',
-                  '&:hover': { background: '#1877F2' },
-                }}
+                sx={{ color: '#fff', background: 'rgba(255,255,255,0.08)', '&:hover': { background: '#1877F2' } }}
               >
                 <Facebook />
+              </IconButton>
+              <IconButton
+                component="a"
+                href="https://www.twitter.com"
+                target="_blank"
+                rel="noopener"
+                sx={{ color: '#fff', background: 'rgba(255,255,255,0.08)', '&:hover': { background: '#1DA1F2' } }}
+              >
+                <Twitter />
+              </IconButton>
+              <IconButton
+                component="a"
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noopener"
+                sx={{ color: '#fff', background: 'rgba(255,255,255,0.08)', '&:hover': { background: '#0A66C2' } }}
+              >
+                <LinkedIn />
               </IconButton>
             </Stack>
           </Grid>
@@ -94,40 +109,6 @@ export default function Footer() {
               </Stack>
             </Grid>
           ))}
-
-          {/* Newsletter */}
-          <Grid item xs={12} sm={12} md={4}>
-            <Typography variant="subtitle2" sx={{ color: '#fff', fontWeight: 700, mb: 2 }}>
-              Newsletter
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', mb: 2, fontSize: '0.875rem' }}>
-              Get investment tips & market updates directly to your inbox.
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <TextField
-                size="small"
-                placeholder="Enter your email"
-                variant="outlined"
-                sx={{
-                  flexGrow: 1,
-                  '& .MuiOutlinedInput-root': {
-                    color: '#fff', background: 'rgba(255,255,255,0.08)',
-                    '& fieldset': { borderColor: 'rgba(255,255,255,0.2)' },
-                    '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.4)' },
-                    '&.Mui-focused fieldset': { borderColor: '#00C853' },
-                  },
-                  '& input::placeholder': { color: 'rgba(255,255,255,0.4)' },
-                }}
-              />
-              <Button
-                variant="contained"
-                color="secondary"
-                sx={{ minWidth: 'unset', px: 2 }}
-              >
-                <ArrowForward fontSize="small" />
-              </Button>
-            </Box>
-          </Grid>
         </Grid>
 
         <Divider sx={{ my: 4, borderColor: 'rgba(255,255,255,0.1)' }} />
