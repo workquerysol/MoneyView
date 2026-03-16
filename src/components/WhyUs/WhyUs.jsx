@@ -9,8 +9,8 @@ const BENEFITS = [
   {
     icon: Psychology,
     title: 'Expert Portfolio Management',
-    description: 'Our seasoned analysts and portfolio managers curate investment opportunities with 15+ years of market experience.',
-    stat: '15+ Years', statLabel: 'Experience',
+    description: 'Our seasoned analysts and portfolio managers curate investment opportunities with 10+ years of market experience.',
+    stat: '10+ Years', statLabel: 'Experience',
     color: '#1565C0',
   },
   {
