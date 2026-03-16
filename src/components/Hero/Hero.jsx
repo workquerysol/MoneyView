@@ -80,12 +80,13 @@ export default function Hero() {
             <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
               {/* Live ticker row */}
               <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 3 }}>
-                {FLOATING_TICKERS.map((t) => (
+                {FLOATING_TICKERS.map((t, idx) => (
                   <motion.div
                     key={t.symbol}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.2 }}
+                    initial={{ opacity: 0, y: 12, scale: 0.85 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ delay: 0.15 + idx * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    whileHover={{ scale: 1.05, transition: { duration: 0.15 } }}
                   >
                     <TickerItem {...t} />
                   </motion.div>
@@ -190,7 +191,8 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, x: 60 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              style={{ animation: 'float 6s ease-in-out infinite' }}
             >
               <Box
                 sx={{

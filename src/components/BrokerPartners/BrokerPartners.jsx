@@ -1,14 +1,41 @@
 import React from 'react'
-import { Box, Container, Grid, Typography, Button, Chip, Stack } from '@mui/material'
+import { Box, Container, Grid, Typography, Button, Stack } from '@mui/material'
 import { CheckCircle, ArrowForward } from '@mui/icons-material'
 import { motion } from 'framer-motion'
 import { BROKERS } from '../../data/brokers'
+import { AngelOneLogo, SharekhanLogo, MotilalOswalLogo } from './BrokerLogos'
 import SectionTitle from '../common/SectionTitle'
 import ScrollReveal from '../common/ScrollReveal'
 
+const BROKER_LOGOS = {
+  angelone: AngelOneLogo,
+  sharekhan: SharekhanLogo,
+  motilal: MotilalOswalLogo,
+}
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
+  visible: (i) => ({
+    opacity: 1, y: 0, scale: 1,
+    transition: { duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] },
+  }),
+}
+
 export default function BrokerPartners() {
   return (
-    <Box sx={{ py: { xs: 8, md: 12 }, background: '#F8FAFC' }}>
+    <Box sx={{ py: { xs: 8, md: 12 }, background: '#F8FAFC', position: 'relative', overflow: 'hidden' }}>
+      {/* Background decorative blobs */}
+      <Box sx={{
+        position: 'absolute', top: -80, right: -80, width: 320, height: 320, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(0,200,83,0.06) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
+      <Box sx={{
+        position: 'absolute', bottom: -60, left: -60, width: 260, height: 260, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(26,58,107,0.05) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
+
       <Container maxWidth="xl">
         <SectionTitle
           tag="Trusted Partners"
@@ -17,10 +44,19 @@ export default function BrokerPartners() {
         />
 
         <Grid container spacing={3} justifyContent="center">
-          {BROKERS.map((broker, i) => (
-            <Grid item xs={12} sm={6} md={4} key={broker.id}>
-              <ScrollReveal delay={i * 0.12}>
-                <motion.div whileHover={{ y: -8, transition: { duration: 0.25 } }}>
+          {BROKERS.map((broker, i) => {
+            const LogoComponent = BROKER_LOGOS[broker.id]
+            return (
+              <Grid item xs={12} sm={6} md={4} key={broker.id}>
+                <motion.div
+                  custom={i}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-60px' }}
+                  whileHover={{ y: -10, transition: { duration: 0.25, ease: 'easeOut' } }}
+                  style={{ height: '100%' }}
+                >
                   <Box
                     sx={{
                       background: '#fff',
@@ -33,6 +69,11 @@ export default function BrokerPartners() {
                       flexDirection: 'column',
                       position: 'relative',
                       overflow: 'hidden',
+                      transition: 'box-shadow 0.3s ease',
+                      '&:hover': {
+                        boxShadow: `0 20px 60px ${broker.color}22`,
+                        border: `1px solid ${broker.color}33`,
+                      },
                       '&::before': {
                         content: '""',
                         position: 'absolute',
@@ -44,19 +85,26 @@ export default function BrokerPartners() {
                   >
                     {/* Logo */}
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2.5 }}>
-                      <Box
-                        sx={{
-                          width: 52, height: 52, borderRadius: 2.5,
-                          background: `linear-gradient(135deg, ${broker.color}22, ${broker.color}11)`,
-                          border: `2px solid ${broker.color}33`,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
+                      <motion.div
+                        whileHover={{ rotate: [0, -5, 5, 0], transition: { duration: 0.4 } }}
                       >
-                        <Typography sx={{ color: broker.color, fontWeight: 900, fontSize: '1rem' }}>
-                          {broker.logo}
-                        </Typography>
-                      </Box>
+                        {LogoComponent ? (
+                          <LogoComponent size={52} />
+                        ) : (
+                          <Box
+                            sx={{
+                              width: 52, height: 52, borderRadius: 2.5,
+                              background: `linear-gradient(135deg, ${broker.color}22, ${broker.color}11)`,
+                              border: `2px solid ${broker.color}33`,
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            }}
+                          >
+                            <Typography sx={{ color: broker.color, fontWeight: 900, fontSize: '1rem' }}>
+                              {broker.logo}
+                            </Typography>
+                          </Box>
+                        )}
+                      </motion.div>
                       <Box>
                         <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main', lineHeight: 1.2 }}>
                           {broker.name}
@@ -72,17 +120,25 @@ export default function BrokerPartners() {
                     </Typography>
 
                     <Stack spacing={0.75} sx={{ mb: 3 }}>
-                      {broker.features.map((feat) => (
-                        <Box key={feat} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <CheckCircle sx={{ color: '#00C853', fontSize: 16 }} />
-                          <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-                            {feat}
-                          </Typography>
-                        </Box>
+                      {broker.features.map((feat, fi) => (
+                        <motion.div
+                          key={feat}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: i * 0.15 + fi * 0.06 + 0.3 }}
+                        >
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <CheckCircle sx={{ color: '#00C853', fontSize: 16 }} />
+                            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                              {feat}
+                            </Typography>
+                          </Box>
+                        </motion.div>
                       ))}
                     </Stack>
 
-                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
                       <Button
                         href={broker.referralUrl}
                         target="_blank"
@@ -93,7 +149,12 @@ export default function BrokerPartners() {
                         sx={{
                           background: `linear-gradient(135deg, ${broker.color}, ${broker.color}cc)`,
                           fontWeight: 700,
-                          '&:hover': { background: broker.color },
+                          py: 1.2,
+                          transition: 'all 0.3s ease',
+                          '&:hover': {
+                            background: broker.color,
+                            boxShadow: `0 8px 24px ${broker.color}55`,
+                          },
                         }}
                       >
                         Open Demat Account
@@ -101,9 +162,9 @@ export default function BrokerPartners() {
                     </motion.div>
                   </Box>
                 </motion.div>
-              </ScrollReveal>
-            </Grid>
-          ))}
+              </Grid>
+            )
+          })}
         </Grid>
       </Container>
     </Box>

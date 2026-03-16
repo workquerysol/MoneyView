@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Box, Container, Grid, Typography, Avatar, Rating, IconButton } from '@mui/material'
-import { FormatQuote, ArrowBack, ArrowForward } from '@mui/icons-material'
-import { motion, AnimatePresence } from 'framer-motion'
+import React from 'react'
+import { Box, Container, Grid, Typography, Avatar, Rating } from '@mui/material'
+import { FormatQuote } from '@mui/icons-material'
+import { motion } from 'framer-motion'
 import SectionTitle from '../common/SectionTitle'
 
 const TESTIMONIALS = [
@@ -32,9 +32,24 @@ const TESTIMONIALS = [
   
 ]
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.96 },
+  visible: (i) => ({
+    opacity: 1, y: 0, scale: 1,
+    transition: { duration: 0.55, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] },
+  }),
+}
+
 export default function Testimonials() {
   return (
-    <Box sx={{ py: { xs: 8, md: 12 }, background: '#F8FAFC' }}>
+    <Box sx={{ py: { xs: 8, md: 12 }, background: '#F8FAFC', position: 'relative', overflow: 'hidden' }}>
+      {/* Background accents */}
+      <Box sx={{
+        position: 'absolute', top: 40, left: -100, width: 300, height: 300, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(0,200,83,0.05) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
+
       <Container maxWidth="xl">
         <SectionTitle
           tag="Investor Stories"
@@ -42,34 +57,50 @@ export default function Testimonials() {
           subtitle="Join 10 + happy investors who have grown their wealth with MoneyView."
         />
 
-        <Grid container spacing={3}>
+        <Grid container spacing={3} alignItems="stretch">
           {TESTIMONIALS.map((t, i) => (
-            <Grid item xs={12} sm={6} lg={4} key={t.name}>
+            <Grid item xs={12} sm={6} lg={4} key={t.name} sx={{ display: 'flex' }}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.5 }}
-                whileHover={{ y: -4 }}
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-50px' }}
+                whileHover={{ y: -6, transition: { duration: 0.25, ease: 'easeOut' } }}
+                style={{ width: '100%', display: 'flex' }}
               >
                 <Box
                   sx={{
-                    p: 3.5, borderRadius: 3, height: '100%',
+                    p: 3.5, borderRadius: 3,
+                    width: '100%',
                     background: '#fff',
                     border: '1px solid rgba(11,31,58,0.06)',
                     boxShadow: '0 2px 20px rgba(11,31,58,0.06)',
                     display: 'flex', flexDirection: 'column',
                     position: 'relative',
+                    transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
+                    '&:hover': {
+                      boxShadow: `0 16px 48px ${t.color}18`,
+                      border: `1px solid ${t.color}30`,
+                    },
                   }}
                 >
-                  <FormatQuote
-                    sx={{
-                      position: 'absolute', top: 16, right: 16,
-                      color: `${t.color}22`, fontSize: 48,
-                    }}
-                  />
+                  <motion.div
+                    style={{ position: 'absolute', top: 16, right: 16 }}
+                    initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
+                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.09 + 0.3, duration: 0.4 }}
+                  >
+                    <FormatQuote sx={{ color: `${t.color}30`, fontSize: 52 }} />
+                  </motion.div>
 
-                  <Rating value={t.rating} readOnly size="small" sx={{ mb: 2, '& .MuiRating-iconFilled': { color: '#F9A825' } }} />
+                  <Rating
+                    value={t.rating}
+                    readOnly
+                    size="small"
+                    sx={{ mb: 2, '& .MuiRating-iconFilled': { color: '#F9A825' } }}
+                  />
 
                   <Typography
                     variant="body2"
@@ -79,16 +110,19 @@ export default function Testimonials() {
                   </Typography>
 
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Avatar
-                      sx={{
-                        background: `linear-gradient(135deg, ${t.color}, ${t.color}88)`,
-                        fontWeight: 700,
-                        fontSize: '0.85rem',
-                        width: 40, height: 40,
-                      }}
-                    >
-                      {t.avatar}
-                    </Avatar>
+                    <motion.div whileHover={{ scale: 1.12, transition: { duration: 0.2 } }}>
+                      <Avatar
+                        sx={{
+                          background: `linear-gradient(135deg, ${t.color}, ${t.color}88)`,
+                          fontWeight: 700,
+                          fontSize: '0.85rem',
+                          width: 40, height: 40,
+                          boxShadow: `0 4px 12px ${t.color}40`,
+                        }}
+                      >
+                        {t.avatar}
+                      </Avatar>
+                    </motion.div>
                     <Box>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main' }}>
                         {t.name}
