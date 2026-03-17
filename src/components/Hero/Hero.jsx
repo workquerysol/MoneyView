@@ -3,7 +3,7 @@ import {
   Box, Container, Typography, Button, Grid, Chip, Stack, Avatar,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { TrendingUp, ArrowForward, PlayArrow } from '@mui/icons-material'
 import AnimatedChart from '../common/AnimatedChart'
 
@@ -45,6 +45,10 @@ function TickerItem({ symbol, change, positive }) {
 }
 
 export default function Hero() {
+  const { scrollY } = useScroll()
+  const yParallaxFast = useTransform(scrollY, [0, 800], [0, -200])
+  const yParallaxSlow = useTransform(scrollY, [0, 800], [0, 100])
+  
   return (
     <Box
       sx={{
@@ -58,20 +62,24 @@ export default function Hero() {
       }}
     >
       {/* Animated chart background */}
-      <AnimatedChart color="#00C853" opacity={0.1} height={300} />
+      <motion.div style={{ position: 'absolute', width: '100%', height: '100%', y: yParallaxSlow }}>
+        <AnimatedChart color="#00C853" opacity={0.1} height={300} />
+      </motion.div>
 
       {/* Radial glow effects */}
-      <Box sx={{
+      <motion.div style={{
         position: 'absolute', top: '10%', right: '5%',
-        width: { xs: 300, md: 600 }, height: { xs: 300, md: 600 }, borderRadius: '50%',
+        width: 600, height: 600, borderRadius: '50%',
         background: 'radial-gradient(circle, rgba(0,200,83,0.06) 0%, transparent 70%)',
         pointerEvents: 'none',
+        y: yParallaxFast
       }} />
-      <Box sx={{
+      <motion.div style={{
         position: 'absolute', bottom: '10%', left: '-10%',
         width: 400, height: 400, borderRadius: '50%',
         background: 'radial-gradient(circle, rgba(26,58,107,0.4) 0%, transparent 70%)',
         pointerEvents: 'none',
+        y: yParallaxSlow
       }} />
 
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
@@ -192,10 +200,14 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, x: 60 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              style={{ animation: 'float 6s ease-in-out infinite' }}
+              transition={{ duration: 0.8, delay: 0.3, type: 'spring', bounce: 0.4 }}
+              style={{ y: yParallaxFast }}
             >
-              <Box
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 6, ease: 'easeInOut', repeat: Infinity }}
+              >
+                <Box
                 sx={{
                   position: 'relative',
                   background: 'rgba(255,255,255,0.04)',
@@ -243,6 +255,7 @@ export default function Hero() {
                   </Box>
                 ))}
               </Box>
+              </motion.div>
             </motion.div>
           </Grid>
         </Grid>
