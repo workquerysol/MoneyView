@@ -13,9 +13,6 @@ const FixedDeposit = lazy(() => import('./pages/FixedDeposit/FixedDeposit'))
 const Insurance = lazy(() => import('./pages/Insurance/Insurance'))
 const PMS = lazy(() => import('./pages/PMS/PMS'))
 const GoldSilverETF = lazy(() => import('./pages/GoldSilverETF/GoldSilverETF'))
-const IPO = lazy(() => import('./pages/IPO/IPO'))
-const Bonds = lazy(() => import('./pages/Bonds/Bonds'))
-const Loans = lazy(() => import('./pages/Loans/Loans'))
 const OpenDemat = lazy(() => import('./pages/OpenDemat/OpenDemat'))
 
 function PageLoader() {
@@ -45,10 +42,6 @@ function AnimatedRoutes() {
           <Route path="/insurance" element={<Insurance />} />
           <Route path="/pms" element={<PMS />} />
           <Route path="/gold-silver-etf" element={<GoldSilverETF />} />
-          <Route path="/commodities" element={<GoldSilverETF />} />
-          <Route path="/ipo" element={<IPO />} />
-          <Route path="/bonds" element={<Bonds />} />
-          <Route path="/loans" element={<Loans />} />
           <Route path="/open-demat" element={<OpenDemat />} />
         </Routes>
       </motion.div>

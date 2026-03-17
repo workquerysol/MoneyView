@@ -27,9 +27,9 @@ export default function GoldSilverETF() {
   return (
     <Box sx={{ background: '#F8FAFC', minHeight: '100vh' }}>
       <PageHero
-        title="Commodities"
-        subtitle="Invest in commodity ETFs like gold and silver to hedge inflation and diversify your portfolio."
-        breadcrumb="Commodities"
+        title="Gold & Silver ETFs"
+        subtitle="Invest in digital gold and silver without storage hassle. Track commodity prices and hedge against inflation."
+        breadcrumb="Gold & Silver ETF"
         icon={Diamond}
       />
 

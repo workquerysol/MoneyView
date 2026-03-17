@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
-  Box, Container, Typography, Button, Grid, Chip, Stack, Avatar, Tabs, Tab, List, ListItem, ListItemText,
+  Box, Container, Typography, Button, Grid, Chip, Stack, Avatar,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
@@ -44,29 +44,10 @@ function TickerItem({ symbol, change, positive }) {
 }
 
 export default function Hero() {
-  const [heroTab, setHeroTab] = useState(0)
   const { scrollY } = useScroll()
   const yParallaxFast = useTransform(scrollY, [0, 800], [0, -200])
   const yParallaxSlow = useTransform(scrollY, [0, 800], [0, 100])
-
-  const FNO_CHAIN = [
-    { name: 'NIFTY 50', strike: 19500, type: 'Call', expiry: '28 Mar 2026', last: '120', change: '+2.1%' },
-    { name: 'BANKNIFTY', strike: 45000, type: 'Put', expiry: '28 Mar 2026', last: '78', change: '-0.6%' },
-    { name: 'NIFTY 50', strike: 19600, type: 'Call', expiry: '28 Mar 2026', last: '94', change: '+1.4%' },
-  ]
-
-  const US_STOCKS = [
-    { name: 'Apple', symbol: 'AAPL', change: '+1.2%' },
-    { name: 'Microsoft', symbol: 'MSFT', change: '+0.8%' },
-    { name: 'Amazon', symbol: 'AMZN', change: '+0.7%' },
-    { name: 'Tesla', symbol: 'TSLA', change: '-0.5%' },
-    { name: 'Google', symbol: 'GOOGL', change: '+1.1%' },
-    { name: 'Nvidia', symbol: 'NVDA', change: '+2.5%' },
-    { name: 'Meta', symbol: 'META', change: '+0.9%' },
-    { name: 'Netflix', symbol: 'NFLX', change: '-0.2%' },
-    { name: 'AMD', symbol: 'AMD', change: '+1.7%' },
-  ]
-
+  
   return (
     <Box
       sx={{
@@ -213,7 +194,7 @@ export default function Hero() {
             </motion.div>
           </Grid>
 
-          {/* Right — Motilal & Quick Views */}
+          {/* Right — animated visual */}
           <Grid item xs={12} md={5} lg={6} sx={{ display: { xs: 'none', md: 'block' } }}>
             <motion.div
               initial={{ opacity: 0, x: 60 }}
@@ -221,7 +202,11 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.3, type: 'spring', bounce: 0.4 }}
               style={{ y: yParallaxFast }}
             >
-              <Box
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 6, ease: 'easeInOut', repeat: Infinity }}
+              >
+                <Box
                 sx={{
                   position: 'relative',
                   background: 'rgba(255,255,255,0.04)',
@@ -232,105 +217,44 @@ export default function Hero() {
                   overflow: 'hidden',
                 }}
               >
-                <Tabs
-                  value={heroTab}
-                  onChange={(_, v) => setHeroTab(v)}
-                  textColor="secondary"
-                  indicatorColor="secondary"
-                  sx={{ mb: 2 }}
-                >
-                  <Tab label="Motilal" />
-                  <Tab label="F&O" />
-                  <Tab label="US Stocks" />
-                </Tabs>
+                {/* Fake chart card */}
+                <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', mb: 1 }}>Portfolio Performance</Typography>
+                <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '2rem', mb: 0.5 }}>₹24,85,320</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+                  <TrendingUp sx={{ color: '#00C853', fontSize: 18 }} />
+                  <Typography sx={{ color: '#00C853', fontWeight: 700, fontSize: '0.9rem' }}>+18.4% this year</Typography>
+                </Box>
 
-                {heroTab === 0 && (
-                  <Box>
-                    <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', mb: 1 }}>
-                      Open a Demat account with Motilal Oswal
-                    </Typography>
-                    <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1.6rem', mb: 2 }}>
-                      Start Investing Today
-                    </Typography>
-                    <Typography sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
-                      Get priority onboarding, research tools and seamless trading access across equities, derivatives, mutual funds and more.
-                    </Typography>
-                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                      <Button
-                        component="a"
-                        href="https://shorturl.at/pG1yY"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        variant="contained"
-                        color="secondary"
-                        fullWidth
-                        endIcon={<ArrowForward />}
-                        sx={{ fontWeight: 700, py: 1.5 }}
-                      >
-                        Open Demat Account
-                      </Button>
-                    </motion.div>
-                  </Box>
-                )}
+                {/* Mini chart */}
+                <Box sx={{ height: 120, position: 'relative', mb: 3 }}>
+                  <AnimatedChart color="#00C853" opacity={0.3} height={120} />
+                </Box>
 
-                {heroTab === 1 && (
-                  <Box>
-                    <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', mb: 1 }}>
-                      Sample options chain (F&O)
+                {/* Asset list */}
+                {[
+                  { name: 'NIFTY 50', alloc: '40%', change: '+12.4%' },
+                  { name: 'Mutual Funds', alloc: '35%', change: '+22.1%' },
+                  { name: 'Gold ETF', alloc: '15%', change: '+8.3%' },
+                  { name: 'Fixed Deposit', alloc: '10%', change: '+7.5%' },
+                ].map((item) => (
+                  <Box
+                    key={item.name}
+                    sx={{
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      py: 0.75, borderBottom: '1px solid rgba(255,255,255,0.06)',
+                    }}
+                  >
+                    <Typography sx={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.85rem', fontWeight: 600 }}>
+                      {item.name}
                     </Typography>
-                    <List dense sx={{ mb: 2 }}>
-                      {FNO_CHAIN.map((item) => (
-                        <ListItem key={`${item.name}-${item.strike}-${item.type}`} sx={{ py: 0.5 }}>
-                          <ListItemText
-                            primary={`${item.name} ${item.type} ${item.strike}`} 
-                            secondary={`${item.expiry} • Last ${item.last} • ${item.change}`}
-                            primaryTypographyProps={{ sx: { color: '#fff', fontWeight: 700, fontSize: '0.85rem' } }}
-                            secondaryTypographyProps={{ sx: { color: 'rgba(255,255,255,0.6)', fontSize: '0.75rem' } }}
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-                    <Button
-                      component={Link}
-                      to="/stocks-etf"
-                      variant="outlined"
-                      fullWidth
-                      sx={{ color: '#fff', borderColor: 'rgba(255,255,255,0.4)' }}
-                    >
-                      View Full Options Chain
-                    </Button>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <Typography sx={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem' }}>{item.alloc}</Typography>
+                      <Typography sx={{ color: '#00C853', fontSize: '0.8rem', fontWeight: 700 }}>{item.change}</Typography>
+                    </Box>
                   </Box>
-                )}
-
-                {heroTab === 2 && (
-                  <Box>
-                    <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', mb: 1 }}>
-                      Trending US stocks
-                    </Typography>
-                    <List dense sx={{ mb: 2 }}>
-                      {US_STOCKS.slice(0, 6).map((stock) => (
-                        <ListItem key={stock.symbol} sx={{ py: 0.5 }}>
-                          <ListItemText
-                            primary={`${stock.symbol} • ${stock.name}`}
-                            secondary={stock.change}
-                            primaryTypographyProps={{ sx: { color: '#fff', fontWeight: 700, fontSize: '0.85rem' } }}
-                            secondaryTypographyProps={{ sx: { color: 'rgba(255,255,255,0.6)', fontSize: '0.75rem' } }}
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-                    <Button
-                      component={Link}
-                      to="/stocks-etf"
-                      variant="outlined"
-                      fullWidth
-                      sx={{ color: '#fff', borderColor: 'rgba(255,255,255,0.4)' }}
-                    >
-                      View All US Stocks
-                    </Button>
-                  </Box>
-                )}
+                ))}
               </Box>
+              </motion.div>
             </motion.div>
           </Grid>
         </Grid>

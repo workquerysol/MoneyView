@@ -1,5 +1,15 @@
 export const BROKERS = [
   {
+    id: 'motilal',
+    name: 'Motilal Oswal',
+    tagline: 'Research. Invest. Grow.',
+    description: 'India\'s leading financial services company offering stock broking, PMS, mutual funds, and wealth management for 35+ years.',
+    referralUrl: 'https://shorturl.at/pG1yY',
+    color: '#6A1B9A',
+    features: ['MOAMC Mutual Funds', 'PMS Services', 'Research Excellence', 'Digital First'],
+    logo: 'MO',
+  },
+  {
     id: 'angelone',
     name: 'Angel One',
     tagline: 'India\'s most trusted stockbroker',
