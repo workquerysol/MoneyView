@@ -34,6 +34,30 @@ const PORTFOLIO_TYPES = [
     description: 'Debt-heavy allocation with select blue-chip equities for steady returns.',
     color: '#6A1B9A',
   },
+  {
+    name: 'Opportunity Portfolio',
+    target: '20-25% CAGR',
+    risk: 'High',
+    minInvestment: '₹50 Lakhs',
+    description: 'Concentrated, high conviction bets on fast-growing sectors and themes.',
+    color: '#C62828',
+  },
+  {
+    name: 'Dividend Yield Portfolio',
+    target: '10-12% yield',
+    risk: 'Moderate',
+    minInvestment: '₹50 Lakhs',
+    description: 'Focus on high dividend yielding companies for passive income.',
+    color: '#F57C00',
+  },
+  {
+    name: 'ESG Portfolio',
+    target: '14-16% CAGR',
+    risk: 'Moderate',
+    minInvestment: '₹50 Lakhs',
+    description: 'Sustainable portfolio built with environment, social, and governance principles.',
+    color: '#2E7D32',
+  },
 ]
 
 const BENEFITS = [

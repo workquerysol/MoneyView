@@ -13,6 +13,27 @@ export const STOCKS = [
   { id: 12, name: 'Titan Company', symbol: 'TITAN', sector: 'Consumer', description: 'India\'s leading lifestyle brand in watches, jewellery, and eyewear.', change: '+1.78%', positive: true },
 ]
 
+export const US_STOCKS = [
+  { id: 'us1', name: 'Apple', symbol: 'AAPL', description: 'Leading consumer electronics giant with strong services growth.', change: '+1.2%', positive: true },
+  { id: 'us2', name: 'Microsoft', symbol: 'MSFT', description: 'Cloud leader with strong recurring revenue and enterprise reach.', change: '+0.8%', positive: true },
+  { id: 'us3', name: 'Amazon', symbol: 'AMZN', description: 'E-commerce and cloud computing powerhouse driven by AWS.', change: '+0.7%', positive: true },
+  { id: 'us4', name: 'Tesla', symbol: 'TSLA', description: 'Electric vehicles and clean energy leader.', change: '-0.5%', positive: false },
+  { id: 'us5', name: 'Google', symbol: 'GOOGL', description: 'Search, ads, and cloud leader with massive AI investments.', change: '+1.1%', positive: true },
+  { id: 'us6', name: 'Nvidia', symbol: 'NVDA', description: 'GPU leader powering AI training and data centers.', change: '+2.5%', positive: true },
+  { id: 'us7', name: 'Meta Platforms', symbol: 'META', description: 'Social media giant investing in metaverse, ads, and commerce.', change: '+0.9%', positive: true },
+  { id: 'us8', name: 'Netflix', symbol: 'NFLX', description: 'Streaming pioneer with global subscriber growth.', change: '-0.2%', positive: false },
+  { id: 'us9', name: 'AMD', symbol: 'AMD', description: 'High-performance CPUs and GPUs for PCs and data centers.', change: '+1.7%', positive: true },
+]
+
+export const OPTIONS_CHAIN = [
+  { id: 'opt1', underlying: 'NIFTY 50', strike: 19600, type: 'Call', expiry: '28 Mar 2026', last: '120', change: '+2.1%', iv: '23%' },
+  { id: 'opt2', underlying: 'NIFTY 50', strike: 19500, type: 'Put', expiry: '28 Mar 2026', last: '78', change: '-0.6%', iv: '22%' },
+  { id: 'opt3', underlying: 'BANKNIFTY', strike: 45000, type: 'Call', expiry: '28 Mar 2026', last: '145', change: '+1.8%', iv: '26%' },
+  { id: 'opt4', underlying: 'BANKNIFTY', strike: 45200, type: 'Put', expiry: '28 Mar 2026', last: '110', change: '-0.2%', iv: '25%' },
+  { id: 'opt5', underlying: 'NIFTY 50', strike: 19700, type: 'Call', expiry: '28 Mar 2026', last: '98', change: '+1.1%', iv: '24%' },
+  { id: 'opt6', underlying: 'NIFTY 50', strike: 19400, type: 'Put', expiry: '28 Mar 2026', last: '65', change: '-0.4%', iv: '21%' },
+]
+
 export const ETFS = [
   { id: 1, name: 'Nifty 50 ETF', symbol: 'NIFTYBEES', type: 'Index ETF', description: 'Tracks Nifty 50, providing diversified exposure to India\'s top 50 companies.', expenseRatio: '0.04%', change: '+0.78%', positive: true },
   { id: 2, name: 'Sensex ETF', symbol: 'SENSEXETF', type: 'Index ETF', description: 'Tracks BSE Sensex, offering exposure to 30 blue-chip companies.', expenseRatio: '0.07%', change: '+0.65%', positive: true },

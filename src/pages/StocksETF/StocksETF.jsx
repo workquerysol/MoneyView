@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import {
   Box, Container, Grid, Typography, Button, Chip, TextField, InputAdornment,
   Tab, Tabs, Select, MenuItem, FormControl, InputLabel, Skeleton,
+  Table, TableHead, TableRow, TableCell, TableBody, Paper,
 } from '@mui/material'
 import { Search, TrendingUp, TrendingDown, ArrowForward, ShowChart } from '@mui/icons-material'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { setStockSearch, setStockSector, setETFType } from '../../store/slices/filterSlice'
-import { STOCKS, ETFS, SECTORS, ETF_TYPES } from '../../data/stocks'
+import { STOCKS, ETFS, SECTORS, ETF_TYPES, US_STOCKS, OPTIONS_CHAIN } from '../../data/stocks'
 import { BROKERS } from '../../data/brokers'
 import PageHero from '../../components/common/PageHero'
 import ScrollReveal from '../../components/common/ScrollReveal'
@@ -88,6 +89,19 @@ export default function StocksETF() {
 
   const filteredETFs = ETFS.filter((e) => etfType === 'All' || e.type === etfType)
 
+  const filteredOptions = OPTIONS_CHAIN.filter((o) => {
+    const search = stockSearch.toLowerCase()
+    return (
+      o.underlying.toLowerCase().includes(search) ||
+      o.type.toLowerCase().includes(search) ||
+      String(o.strike).includes(search)
+    )
+  })
+
+  const filteredUSStocks = US_STOCKS.filter((s) =>
+    s.name.toLowerCase().includes(stockSearch.toLowerCase()) || s.symbol.toLowerCase().includes(stockSearch.toLowerCase())
+  )
+
   return (
     <Box sx={{ background: '#F8FAFC', minHeight: '100vh' }}>
       <PageHero
@@ -106,51 +120,90 @@ export default function StocksETF() {
         >
           <Tab label={`Stocks (${STOCKS.length})`} />
           <Tab label={`ETFs (${ETFS.length})`} />
+          <Tab label={`F&O Options (${OPTIONS_CHAIN.length})`} />
+          <Tab label={`US Stocks (${US_STOCKS.length})`} />
         </Tabs>
 
         {/* Filters */}
-        {tab === 0 && (
-          <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>
+          {(tab === 0 || tab === 2 || tab === 3) && (
             <TextField
               size="small"
-              placeholder="Search stocks..."
+              placeholder={tab === 3 ? 'Search US stocks...' : tab === 2 ? 'Search options...' : 'Search stocks...'}
               value={stockSearch}
               onChange={(e) => dispatch(setStockSearch(e.target.value))}
               InputProps={{ startAdornment: <InputAdornment position="start"><Search sx={{ color: 'text.disabled' }} /></InputAdornment> }}
               sx={{ width: { xs: '100%', sm: 280 } }}
             />
+          )}
+
+          {tab === 0 && (
             <FormControl size="small" sx={{ minWidth: 160 }}>
               <InputLabel>Sector</InputLabel>
               <Select value={stockSector} label="Sector" onChange={(e) => dispatch(setStockSector(e.target.value))}>
                 {SECTORS.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
               </Select>
             </FormControl>
-          </Box>
-        )}
+          )}
 
-        {tab === 1 && (
-          <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>
+          {tab === 1 && (
             <FormControl size="small" sx={{ minWidth: 160 }}>
               <InputLabel>ETF Type</InputLabel>
               <Select value={etfType} label="ETF Type" onChange={(e) => dispatch(setETFType(e.target.value))}>
                 {ETF_TYPES.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
               </Select>
             </FormControl>
-          </Box>
+          )}
+        </Box>
+
+        {/* Content */}
+        {tab === 2 ? (
+          <Paper sx={{ overflowX: 'auto' }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Underlying</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Strike</TableCell>
+                  <TableCell>Expiry</TableCell>
+                  <TableCell>Last</TableCell>
+                  <TableCell>Change</TableCell>
+                  <TableCell>IV</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredOptions.map((opt) => (
+                  <TableRow key={opt.id} hover>
+                    <TableCell>{opt.underlying}</TableCell>
+                    <TableCell>{opt.type}</TableCell>
+                    <TableCell>{opt.strike}</TableCell>
+                    <TableCell>{opt.expiry}</TableCell>
+                    <TableCell>{opt.last}</TableCell>
+                    <TableCell sx={{ color: opt.change.startsWith('+') ? '#00C853' : '#FF1744' }}>{opt.change}</TableCell>
+                    <TableCell>{opt.iv}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            {filteredOptions.length === 0 && (
+              <Box sx={{ textAlign: 'center', py: 8 }}>
+                <Typography color="text.secondary">No options data found. Try a different search.</Typography>
+              </Box>
+            )}
+          </Paper>
+        ) : (
+          <Grid container spacing={3}>
+            {(tab === 0 ? filteredStocks : tab === 1 ? filteredETFs : filteredUSStocks).map((item, i) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} sx={{ display: 'flex' }}>
+                <ScrollReveal delay={i * 0.04} style={{ width: '100%', display: 'flex' }}>
+                  <StockCard stock={item} referralUrl={MOTILAL.referralUrl} />
+                </ScrollReveal>
+              </Grid>
+            ))}
+          </Grid>
         )}
 
-        {/* Grid */}
-        <Grid container spacing={3}>
-          {(tab === 0 ? filteredStocks : filteredETFs).map((item, i) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} sx={{ display: 'flex' }}>
-              <ScrollReveal delay={i * 0.04} style={{ width: '100%', display: 'flex' }}>
-                <StockCard stock={item} referralUrl={MOTILAL.referralUrl} />
-              </ScrollReveal>
-            </Grid>
-          ))}
-        </Grid>
-
-        {(tab === 0 ? filteredStocks : filteredETFs).length === 0 && (
+        {((tab === 0 ? filteredStocks : tab === 1 ? filteredETFs : filteredUSStocks).length === 0 && tab !== 2) && (
           <Box sx={{ textAlign: 'center', py: 8 }}>
             <Typography color="text.secondary">No results found. Try a different search or filter.</Typography>
           </Box>

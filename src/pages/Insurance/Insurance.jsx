@@ -3,16 +3,27 @@ import {
   Box, Container, Grid, Typography, Button, TextField, Paper, Alert,
   Divider, List, ListItem, ListItemIcon, ListItemText,
 } from '@mui/material'
-import { Shield, CheckCircle, Send, HealthAndSafety, FamilyRestroom, Apartment } from '@mui/icons-material'
+import {
+  Shield, CheckCircle, Send, HealthAndSafety, FamilyRestroom, Apartment,
+  DirectionsCar, Business, FlightTakeoff, ChildCare, AccountBalance,
+} from '@mui/icons-material'
 import { motion, AnimatePresence } from 'framer-motion'
 import PageHero from '../../components/common/PageHero'
 import SectionTitle from '../../components/common/SectionTitle'
 import ScrollReveal from '../../components/common/ScrollReveal'
 
-const INSURANCE_TYPES = [
-  { icon: FamilyRestroom, title: 'Term Life Insurance', description: 'High coverage at low premiums. Protect your family\'s future financially.', color: '#1565C0' },
-  { icon: HealthAndSafety, title: 'Health Insurance', description: 'Cashless hospitalization, OPD coverage, and comprehensive health protection.', color: '#00695C' },
-  { icon: Apartment, title: 'Investment Plans', description: 'ULIPs, endowment, and money-back plans for wealth + protection.', color: '#6A1B9A' },
+const LIFE_INSURANCE_PLANS = [
+  { icon: FamilyRestroom, title: 'Term Plan', description: 'High coverage life insurance at affordable premiums to protect your family.', color: '#1565C0' },
+  { icon: ChildCare, title: 'Child Plan', description: 'Secure your child’s future education and goals with a dedicated savings plan.', color: '#6A1B9A' },
+  { icon: AccountBalance, title: 'Pension Plan', description: 'Build a retirement corpus with guaranteed income after retirement.', color: '#0D47A1' },
+  { icon: Apartment, title: 'Investment Plan', description: 'ULIPs and endowment plans that combine protection with wealth creation.', color: '#C62828' },
+]
+
+const GENERAL_INSURANCE_PLANS = [
+  { icon: HealthAndSafety, title: 'Health Insurance', description: 'Cashless hospitalization, OPD cover, and comprehensive health protection.', color: '#00695C' },
+  { icon: DirectionsCar, title: 'Motor Insurance', description: 'Protect your vehicle with comprehensive and third-party cover.', color: '#FF6F00' },
+  { icon: Business, title: 'Business Insurance', description: 'Shield your business against liabilities, theft, and property damage.', color: '#283593' },
+  { icon: FlightTakeoff, title: 'Travel Insurance', description: 'Travel with peace of mind with medical and trip protection worldwide.', color: '#00838F' },
 ]
 
 export default function Insurance() {
@@ -57,40 +68,76 @@ export default function Insurance() {
               center={false}
             />
 
-            <Grid container spacing={2.5} sx={{ mb: 3 }}>
-              {INSURANCE_TYPES.map((type, i) => {
-                const Icon = type.icon
-                return (
-                  <Grid item xs={12} key={type.title}>
-                    <ScrollReveal delay={i * 0.1}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
+              <Grid item xs={12} md={6}>
+                <SectionTitle tag="Life Insurance" center={false} />
+                {LIFE_INSURANCE_PLANS.map((plan, i) => {
+                  const Icon = plan.icon
+                  return (
+                    <ScrollReveal key={plan.title} delay={i * 0.1}>
                       <Box
                         sx={{
                           p: 2.5, borderRadius: 2.5, background: '#fff',
                           border: '1px solid rgba(11,31,58,0.07)',
                           boxShadow: '0 2px 12px rgba(11,31,58,0.05)',
-                          display: 'flex', gap: 2, alignItems: 'flex-start',
+                          display: 'flex', gap: 2, alignItems: 'flex-start', mb: 2,
                         }}
                       >
                         <Box sx={{
                           width: 44, height: 44, borderRadius: 2,
-                          background: `${type.color}15`,
+                          background: `${plan.color}15`,
                           display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                         }}>
-                          <Icon sx={{ color: type.color, fontSize: 22 }} />
+                          <Icon sx={{ color: plan.color, fontSize: 22 }} />
                         </Box>
                         <Box>
                           <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main', mb: 0.5 }}>
-                            {type.title}
+                            {plan.title}
                           </Typography>
                           <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
-                            {type.description}
+                            {plan.description}
                           </Typography>
                         </Box>
                       </Box>
                     </ScrollReveal>
-                  </Grid>
-                )
-              })}
+                  )
+                })}
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <SectionTitle tag="General Insurance" center={false} />
+                {GENERAL_INSURANCE_PLANS.map((plan, i) => {
+                  const Icon = plan.icon
+                  return (
+                    <ScrollReveal key={plan.title} delay={i * 0.1}>
+                      <Box
+                        sx={{
+                          p: 2.5, borderRadius: 2.5, background: '#fff',
+                          border: '1px solid rgba(11,31,58,0.07)',
+                          boxShadow: '0 2px 12px rgba(11,31,58,0.05)',
+                          display: 'flex', gap: 2, alignItems: 'flex-start', mb: 2,
+                        }}
+                      >
+                        <Box sx={{
+                          width: 44, height: 44, borderRadius: 2,
+                          background: `${plan.color}15`,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                        }}>
+                          <Icon sx={{ color: plan.color, fontSize: 22 }} />
+                        </Box>
+                        <Box>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main', mb: 0.5 }}>
+                            {plan.title}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                            {plan.description}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </ScrollReveal>
+                  )
+                })}
+              </Grid>
             </Grid>
 
             <List dense>
