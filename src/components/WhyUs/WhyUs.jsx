@@ -98,12 +98,12 @@ export default function WhyUs() {
           {BENEFITS.map((benefit, i) => {
             const Icon = benefit.icon
             return (
-              <Grid item xs={12} sm={6} lg={3} key={benefit.title}>
-                <ScrollReveal delay={i * 0.1}>
-                  <motion.div whileHover={{ y: -6 }}>
+              <Grid item xs={12} sm={6} lg={3} key={benefit.title} sx={{ display: 'flex' }}>
+                <ScrollReveal delay={i * 0.1} style={{ width: '100%', display: 'flex' }}>
+                  <motion.div whileHover={{ y: -6 }} style={{ width: '100%', display: 'flex' }}>
                     <Box
                       sx={{
-                        p: 3.5, borderRadius: 3, height: '100%',
+                        p: 3.5, borderRadius: 3, width: '100%', flex: 1, display: 'flex', flexDirection: 'column',
                         background: 'rgba(255,255,255,0.04)',
                         backdropFilter: 'blur(10px)',
                         border: '1px solid rgba(255,255,255,0.08)',
@@ -135,7 +135,7 @@ export default function WhyUs() {
 
                       <Box sx={{
                         pt: 2, borderTop: '1px solid rgba(255,255,255,0.08)',
-                        display: 'flex', alignItems: 'baseline', gap: 1,
+                        display: 'flex', alignItems: 'baseline', gap: 1, mt: 'auto',
                       }}>
                         <Typography sx={{ color: benefit.color, fontWeight: 800, fontSize: '1.5rem' }}>
                           <AnimatedCounter target={benefit.stat} />

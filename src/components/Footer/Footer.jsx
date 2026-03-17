@@ -5,6 +5,7 @@ import {
 import { Link } from 'react-router-dom'
 import { Facebook, Twitter, LinkedIn, TrendingUp } from '@mui/icons-material'
 import { motion } from 'framer-motion'
+import ScrollReveal from '../common/ScrollReveal'
 
 const FOOTER_LINKS = {
   Services: [
@@ -37,6 +38,7 @@ export default function Footer() {
         <Grid container spacing={4}>
           {/* Brand */}
           <Grid item xs={12} md={4}>
+            <ScrollReveal direction="right" delay={0.1}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
               <Box
                 sx={{
@@ -83,12 +85,14 @@ export default function Footer() {
               >
                 <LinkedIn />
               </IconButton>
-            </Stack>
+              </Stack>
+            </ScrollReveal>
           </Grid>
 
           {/* Links */}
-          {Object.entries(FOOTER_LINKS).map(([title, links]) => (
+          {Object.entries(FOOTER_LINKS).map(([title, links], index) => (
             <Grid item xs={6} sm={4} md={2} key={title}>
+              <ScrollReveal delay={0.2 + (index * 0.1)}>
               <Typography variant="subtitle2" sx={{ color: '#fff', fontWeight: 700, mb: 2, letterSpacing: 0.5 }}>
                 {title}
               </Typography>
@@ -106,13 +110,15 @@ export default function Footer() {
                     {l.label}
                   </MuiLink>
                 ))}
-              </Stack>
+                </Stack>
+              </ScrollReveal>
             </Grid>
           ))}
         </Grid>
 
         <Divider sx={{ my: 4, borderColor: 'rgba(255,255,255,0.1)' }} />
 
+        <ScrollReveal delay={0.4} direction="up" distance={20}>
         {/* Disclaimer */}
         <Box
           sx={{
@@ -136,6 +142,7 @@ export default function Footer() {
             SEBI Registered Investment Advisor | ARN-XXXXX
           </Typography>
         </Box>
+        </ScrollReveal>
       </Container>
     </Box>
   )

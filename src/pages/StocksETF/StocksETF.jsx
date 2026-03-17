@@ -16,13 +16,14 @@ const MOTILAL = BROKERS.find((b) => b.id === 'motilal')
 
 function StockCard({ stock, referralUrl }) {
   return (
-    <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
+    <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }} style={{ width: '100%', display: 'flex' }}>
       <Box
         sx={{
           p: 2.5, borderRadius: 3, background: '#fff',
           border: '1px solid rgba(11,31,58,0.07)',
           boxShadow: '0 2px 14px rgba(11,31,58,0.06)',
           display: 'flex', flexDirection: 'column', gap: 1.5,
+          width: '100%', flex: 1,
           transition: 'box-shadow 0.2s',
           '&:hover': { boxShadow: '0 6px 30px rgba(11,31,58,0.12)' },
         }}
@@ -54,7 +55,7 @@ function StockCard({ stock, referralUrl }) {
           </Typography>
         )}
 
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} style={{ marginTop: 'auto' }}>
           <Button
             href={referralUrl}
             target="_blank"
@@ -141,8 +142,8 @@ export default function StocksETF() {
         {/* Grid */}
         <Grid container spacing={3}>
           {(tab === 0 ? filteredStocks : filteredETFs).map((item, i) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
-              <ScrollReveal delay={i * 0.04}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} sx={{ display: 'flex' }}>
+              <ScrollReveal delay={i * 0.04} style={{ width: '100%', display: 'flex' }}>
                 <StockCard stock={item} referralUrl={MOTILAL.referralUrl} />
               </ScrollReveal>
             </Grid>

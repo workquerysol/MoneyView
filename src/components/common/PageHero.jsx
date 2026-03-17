@@ -1,8 +1,21 @@
 import React from 'react'
 import { Box, Container, Typography, Breadcrumbs, Link } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import AnimatedChart from './AnimatedChart'
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+}
 
 export default function PageHero({ title, subtitle, breadcrumb, icon: Icon }) {
   return (
@@ -26,14 +39,17 @@ export default function PageHero({ title, subtitle, breadcrumb, icon: Icon }) {
       }} />
 
       <Container maxWidth="xl">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <Breadcrumbs sx={{ mb: 2 }} aria-label="breadcrumb">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible">
+          <motion.div variants={itemVariants}>
+            <Breadcrumbs sx={{ mb: 2 }} aria-label="breadcrumb">
             <Link component={RouterLink} to="/" sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem', textDecoration: 'none', '&:hover': { color: '#00C853' } }}>
               Home
             </Link>
             <Typography sx={{ color: '#00C853', fontSize: '0.875rem' }}>{breadcrumb}</Typography>
           </Breadcrumbs>
+          </motion.div>
 
+          <motion.div variants={itemVariants}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             {Icon && (
               <Box sx={{
@@ -49,11 +65,14 @@ export default function PageHero({ title, subtitle, breadcrumb, icon: Icon }) {
               {title}
             </Typography>
           </Box>
+          </motion.div>
 
           {subtitle && (
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.65)', maxWidth: 600, lineHeight: 1.8 }}>
-              {subtitle}
-            </Typography>
+            <motion.div variants={itemVariants}>
+              <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.65)', maxWidth: 600, lineHeight: 1.8 }}>
+                {subtitle}
+              </Typography>
+            </motion.div>
           )}
         </motion.div>
       </Container>
