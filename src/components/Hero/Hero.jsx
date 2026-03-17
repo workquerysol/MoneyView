@@ -8,10 +8,9 @@ import { TrendingUp, ArrowForward, PlayArrow } from '@mui/icons-material'
 import AnimatedChart from '../common/AnimatedChart'
 
 const STATS = [
-  { value: '10L+', label: 'Happy Investors' },
-  { value: '₹500Cr+', label: 'Assets Managed' },
-  { value: '15+', label: 'Years of Trust' },
-  { value: '99.9%', label: 'Uptime' },
+  { value: '10+', label: 'Happy Investors' },
+  { value: '₹50L+', label: 'Assets Managed' },
+  { value: '10+', label: 'Years of Trust' },
 ]
 
 const FLOATING_TICKERS = [

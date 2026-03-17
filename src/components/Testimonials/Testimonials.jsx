@@ -29,30 +29,7 @@ const TESTIMONIALS = [
     text: 'Opened my Demat account through MoneyView\'s Angel One referral. The process was seamless and I started trading within 24 hours!',
     color: '#E65100',
   },
-  {
-    name: 'Sneha Verma',
-    role: 'Teacher, Delhi',
-    avatar: 'SV',
-    rating: 5,
-    text: 'I started my investment journey with just ₹500 SIP through MoneyView. Now I\'m confidently building wealth for my retirement.',
-    color: '#6A1B9A',
-  },
-  {
-    name: 'Vikram Mehta',
-    role: 'CA, Mumbai',
-    avatar: 'VM',
-    rating: 5,
-    text: 'The Gold ETF and Fixed Deposit options on MoneyView are excellent. Great platform for diversified, low-risk portfolios.',
-    color: '#C62828',
-  },
-  {
-    name: 'Lakshmi Reddy',
-    role: 'Homemaker, Hyderabad',
-    avatar: 'LR',
-    rating: 5,
-    text: 'Even as a first-time investor, MoneyView made everything easy to understand. Highly recommend the insurance and FD sections!',
-    color: '#F9A825',
-  },
+  
 ]
 
 const cardVariants = {
@@ -77,7 +54,7 @@ export default function Testimonials() {
         <SectionTitle
           tag="Investor Stories"
           title="What Our Investors Say"
-          subtitle="Join 10 lakh+ happy investors who have grown their wealth with MoneyView."
+          subtitle="Join 10 + happy investors who have grown their wealth with MoneyView."
         />
 
         <Grid container spacing={3} alignItems="stretch">
