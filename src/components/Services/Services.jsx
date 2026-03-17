@@ -10,35 +10,54 @@ import ScrollReveal from '../common/ScrollReveal'
 
 const SERVICES = [
   {
-    icon: ShowChart, label: 'Stocks & ETF', path: '/stocks-etf',
-    description: 'Invest in India\'s top companies and index ETFs with zero commission trading.',
+    icon: ShowChart, label: 'Equity & Stocks', path: '/stocks-etf',
     color: '#1565C0', gradient: 'linear-gradient(135deg, #1565C0, #42A5F5)',
   },
   {
+    icon: AccountBalance, label: 'Future & Options', path: '/futures-options',
+    color: '#6A1B9A', gradient: 'linear-gradient(135deg, #6A1B9A, #AB47BC)',
+  },
+  {
+    icon: AccountBalance, label: 'US Stocks', path: '/us-stocks',
+    color: '#6A1B9A', gradient: 'linear-gradient(135deg, #6A1B9A, #AB47BC)',
+  },
+  {
+    icon: AccountBalance, label: 'Alternative Investments Funds', path: '/futures-options',
+    color: '#6A1B9A', gradient: 'linear-gradient(135deg, #6A1B9A, #AB47BC)',
+  },
+  {
+    icon: AccountBalance, label: 'Insurance', path: '/insurance',
+    color: '#6A1B9A', gradient: 'linear-gradient(135deg, #6A1B9A, #AB47BC)',
+  },
+  {
     icon: AccountBalance, label: 'Mutual Funds', path: '/mutual-funds',
-    description: 'Start SIP from ₹100. Top-rated funds across large cap, mid cap, and small cap.',
+    color: '#6A1B9A', gradient: 'linear-gradient(135deg, #6A1B9A, #AB47BC)',
+  },
+  {
+    icon: AccountBalance, label: 'Commodities', path: '/commodities',
     color: '#6A1B9A', gradient: 'linear-gradient(135deg, #6A1B9A, #AB47BC)',
   },
   {
     icon: Savings, label: 'Fixed Deposits', path: '/fixed-deposit',
-    description: 'Guaranteed returns up to 9% p.a. from top banks and corporate FDs.',
+    color: '#E65100', gradient: 'linear-gradient(135deg, #E65100, #FF9800)',
+  },
+  {
+    icon: Savings, label: 'Portfolio Management Services)', path: '/portfolio-management',
+    color: '#E65100', gradient: 'linear-gradient(135deg, #E65100, #FF9800)',
+  },
+  {
+    icon: Savings, label: 'Initial Public Offerings(IPO)', path: '/ipo',
     color: '#E65100', gradient: 'linear-gradient(135deg, #E65100, #FF9800)',
   },
   {
     icon: Shield, label: 'Insurance', path: '/insurance',
-    description: 'Term life, health, and investment plans. Protect what matters most.',
     color: '#00695C', gradient: 'linear-gradient(135deg, #00695C, #26A69A)',
   },
   {
-    icon: BusinessCenter, label: 'PMS', path: '/pms',
-    description: 'Portfolio Management Services for HNI investors. Personalized, data-driven strategies.',
+    icon: BusinessCenter, label: 'Bonds', path: '/bonds',
     color: '#C62828', gradient: 'linear-gradient(135deg, #C62828, #EF5350)',
   },
-  {
-    icon: Diamond, label: 'Gold & Silver ETF', path: '/gold-silver-etf',
-    description: 'Digital gold & silver exposure without physical storage. Hedge against inflation.',
-    color: '#F9A825', gradient: 'linear-gradient(135deg, #F9A825, #FDD835)',
-  },
+  
 ]
 
 export default function Services() {

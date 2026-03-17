@@ -9,7 +9,7 @@ import ScrollReveal from '../common/ScrollReveal'
 
 const FOOTER_LINKS = {
   Services: [
-    { label: 'Stocks & ETF', path: '/stocks-etf' },
+    { label: 'Equity & Stocks', path: '/stocks-etf' },
     { label: 'Mutual Funds', path: '/mutual-funds' },
     { label: 'Fixed Deposit', path: '/fixed-deposit' },
     { label: 'Insurance', path: '/insurance' },
