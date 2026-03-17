@@ -4,6 +4,7 @@ import { Box, CircularProgress } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
+import ScrollToTopButton from './components/common/ScrollToTopButton'
 
 const Home = lazy(() => import('./pages/Home/Home'))
 const StocksETF = lazy(() => import('./pages/StocksETF/StocksETF'))
@@ -59,6 +60,7 @@ export default function App() {
           </Suspense>
         </Box>
         <Footer />
+        <ScrollToTopButton />
       </Box>
     </BrowserRouter>
   )

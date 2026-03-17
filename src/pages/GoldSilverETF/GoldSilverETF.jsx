@@ -57,16 +57,16 @@ export default function GoldSilverETF() {
           {filtered.map((etf, i) => {
             const typeStyle = TYPE_STYLES[etf.type]
             return (
-              <Grid item xs={12} sm={6} lg={3} key={etf.id}>
-                <ScrollReveal delay={i * 0.06}>
-                  <motion.div whileHover={{ y: -4 }}>
+              <Grid item xs={12} sm={6} lg={3} key={etf.id} sx={{ display: 'flex' }}>
+                <ScrollReveal delay={i * 0.06} style={{ width: '100%', display: 'flex' }}>
+                  <motion.div whileHover={{ y: -4 }} style={{ width: '100%', display: 'flex' }}>
                     <Box
                       sx={{
                         p: 3, borderRadius: 3, background: '#fff',
                         border: '1px solid rgba(11,31,58,0.07)',
                         boxShadow: '0 2px 14px rgba(11,31,58,0.06)',
                         display: 'flex', flexDirection: 'column',
-                        height: '100%',
+                        width: '100%', flex: 1,
                         '&:hover': { boxShadow: '0 6px 30px rgba(11,31,58,0.12)' },
                         transition: 'box-shadow 0.2s',
                       }}
@@ -102,7 +102,7 @@ export default function GoldSilverETF() {
                       </Typography>
 
                       <Box sx={{
-                        display: 'flex', justifyContent: 'space-between', mb: 2,
+                        display: 'flex', justifyContent: 'space-between', mb: 2, mt: 'auto',
                         p: 1.5, background: typeStyle.bg, borderRadius: 2,
                       }}>
                         <Typography variant="caption" sx={{ color: 'text.secondary' }}>Expense Ratio</Typography>
