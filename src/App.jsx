@@ -14,6 +14,7 @@ const Insurance = lazy(() => import('./pages/Insurance/Insurance'))
 const PMS = lazy(() => import('./pages/PMS/PMS'))
 const GoldSilverETF = lazy(() => import('./pages/GoldSilverETF/GoldSilverETF'))
 const OpenDemat = lazy(() => import('./pages/OpenDemat/OpenDemat'))
+const Loan = lazy(() => import('./pages/Loan/Loan'))
 
 function PageLoader() {
   return (
@@ -43,6 +44,7 @@ function AnimatedRoutes() {
           <Route path="/pms" element={<PMS />} />
           <Route path="/gold-silver-etf" element={<GoldSilverETF />} />
           <Route path="/open-demat" element={<OpenDemat />} />
+          <Route path="/loan" element={<Loan />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

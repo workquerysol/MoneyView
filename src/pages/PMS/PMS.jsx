@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   Box, Container, Grid, Typography, Button, TextField, Paper, Alert,
-  List, ListItem, ListItemIcon, ListItemText, Chip, Divider,
+  List, ListItem, ListItemIcon, ListItemText, Chip, Divider, Snackbar, CircularProgress,
 } from '@mui/material'
 import { BusinessCenter, CheckCircle, Send, TrendingUp, Security, Speed, Groups } from '@mui/icons-material'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -47,6 +47,12 @@ export default function PMS() {
   const [form, setForm] = useState({ name: '', mobile: '', email: '', amount: '' })
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState({ open: false, message: '', severity: 'success' })
+
+  const showToast = (message, severity = 'success') => {
+    setToast({ open: true, message, severity })
+  }
 
   const validate = () => {
     const e = {}
@@ -58,9 +64,36 @@ export default function PMS() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (validate()) setSubmitted(true)
+    if (validate()) {
+      setLoading(true)
+      try {
+        const response = await fetch('https://api.staticforms.xyz/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            accessKey: 'YOUR_STATICFORM_ACCESS_KEY',
+            subject: 'New PMS Consultation Request',
+            fromName: form.name,
+            email: form.email,
+            mobile: form.mobile,
+            amount: form.amount,
+            message: `PMS Consultation Request\nName: ${form.name}\nMobile: ${form.mobile}\nEmail: ${form.email}\nInvestment Amount: ₹${form.amount}`,
+          }),
+        })
+        if (response.ok) {
+          setSubmitted(true)
+          showToast('Request submitted successfully! We will contact you soon.', 'success')
+        } else {
+          showToast('Failed to submit request. Please try again.', 'error')
+        }
+      } catch (error) {
+        showToast('Network error. Please check your connection.', 'error')
+      } finally {
+        setLoading(false)
+      }
+    }
   }
 
   return (
@@ -181,8 +214,8 @@ export default function PMS() {
                           </Grid>
                           <Grid item xs={12}>
                             <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
-                              <Button type="submit" variant="contained" color="secondary" fullWidth size="large" endIcon={<Send />} sx={{ fontWeight: 700, py: 1.5 }}>
-                                Request Consultation
+                              <Button type="submit" variant="contained" color="secondary" fullWidth size="large" endIcon={loading ? <CircularProgress size={20} color="inherit" /> : <Send />} sx={{ fontWeight: 700, py: 1.5 }} disabled={loading}>
+                                {loading ? 'Submitting...' : 'Request Consultation'}
                               </Button>
                             </motion.div>
                           </Grid>
@@ -211,6 +244,17 @@ export default function PMS() {
           </Grid>
         </Grid>
       </Container>
+
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={6000}
+        onClose={() => setToast({ ...toast, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setToast({ ...toast, open: false })} severity={toast.severity} sx={{ width: '100%' }}>
+          {toast.message}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }

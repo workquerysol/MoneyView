@@ -1,24 +1,38 @@
 import React, { useState } from 'react'
 import {
   Box, Container, Grid, Typography, Button, TextField, Paper, Alert,
-  Divider, List, ListItem, ListItemIcon, ListItemText,
+  Divider, List, ListItem, ListItemIcon, ListItemText, Snackbar, MenuItem, CircularProgress,
 } from '@mui/material'
-import { Shield, CheckCircle, Send, HealthAndSafety, FamilyRestroom, Apartment } from '@mui/icons-material'
+import { Shield, CheckCircle, Send, HealthAndSafety, FamilyRestroom, Apartment, DirectionsCar, Business, Flight } from '@mui/icons-material'
 import { motion, AnimatePresence } from 'framer-motion'
 import PageHero from '../../components/common/PageHero'
 import SectionTitle from '../../components/common/SectionTitle'
 import ScrollReveal from '../../components/common/ScrollReveal'
 
-const INSURANCE_TYPES = [
-  { icon: FamilyRestroom, title: 'Term Life Insurance', description: 'High coverage at low premiums. Protect your family\'s future financially.', color: '#1565C0' },
-  { icon: HealthAndSafety, title: 'Health Insurance', description: 'Cashless hospitalization, OPD coverage, and comprehensive health protection.', color: '#00695C' },
-  { icon: Apartment, title: 'Investment Plans', description: 'ULIPs, endowment, and money-back plans for wealth + protection.', color: '#6A1B9A' },
+const LIFE_INSURANCE = [
+  { title: 'Term Plan', description: 'Pure life cover at lowest premiums. Get high sum assured for your family\'s financial security.', color: '#1565C0' },
+  { title: 'Child Plan', description: 'Secure your child\'s future education and marriage with guaranteed returns.', color: '#1976D2' },
+  { title: 'Pension Plan', description: 'Build a retirement corpus with guaranteed pension and spouse benefits.', color: '#1E88E5' },
+  { title: 'Investment Plan', description: 'Wealth creation with life cover - ULIPs, endowment, and money-back plans.', color: '#2196F3' },
+]
+
+const GENERAL_INSURANCE = [
+  { title: 'Health Insurance', description: 'Cashless hospitalization, OPD coverage, pre & post hospitalization expenses.', color: '#00695C' },
+  { title: 'Motor Insurance', description: 'Comprehensive & third-party car & two-wheeler insurance with instant claim.', color: '#00897B' },
+  { title: 'Business Insurance', description: 'Protect your business with property, liability, and trade insurance.', color: '#009688' },
+  { title: 'Travel Insurance', description: 'Coverage for trip cancellation, baggage loss, medical emergencies abroad.', color: '#00BFA5' },
 ]
 
 export default function Insurance() {
-  const [form, setForm] = useState({ name: '', mobile: '', dob: '', email: '' })
+  const [form, setForm] = useState({ name: '', mobile: '', dob: '', email: '', insuranceType: '' })
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState({ open: false, message: '', severity: 'success' })
+
+  const showToast = (message, severity = 'success') => {
+    setToast({ open: true, message, severity })
+  }
 
   const validate = () => {
     const e = {}
@@ -26,14 +40,41 @@ export default function Insurance() {
     if (!/^\d{10}$/.test(form.mobile)) e.mobile = 'Enter valid 10-digit mobile number'
     if (!form.dob) e.dob = 'Date of birth is required'
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter valid email address'
+    if (!form.insuranceType) e.insuranceType = 'Please select insurance type'
     setErrors(e)
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (validate()) {
-      setSubmitted(true)
+      setLoading(true)
+      try {
+        const response = await fetch('https://api.staticforms.xyz/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            accessKey: 'YOUR_STATICFORM_ACCESS_KEY',
+            subject: `New Insurance Quote Request - ${form.insuranceType}`,
+            fromName: form.name,
+            email: form.email,
+            mobile: form.mobile,
+            dob: form.dob,
+            insuranceType: form.insuranceType,
+            message: `Insurance Quote Request\nName: ${form.name}\nMobile: ${form.mobile}\nDOB: ${form.dob}\nEmail: ${form.email}\nInsurance Type: ${form.insuranceType}`,
+          }),
+        })
+        if (response.ok) {
+          setSubmitted(true)
+          showToast('Request submitted successfully! We will contact you soon.', 'success')
+        } else {
+          showToast('Failed to submit request. Please try again.', 'error')
+        }
+      } catch (error) {
+        showToast('Network error. Please check your connection.', 'error')
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
@@ -48,49 +89,76 @@ export default function Insurance() {
 
       <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
         <Grid container spacing={6}>
-          {/* Left: Info */}
           <Grid item xs={12} md={6}>
             <SectionTitle
-              tag="Why Insurance"
-              title="Protect What Matters Most"
-              subtitle="Insurance is the foundation of any sound financial plan. Don't leave your family's future to chance."
+              tag="Life Insurance"
+              title="Comprehensive Life Coverage"
+              subtitle="Protect your family's future with our range of life insurance solutions."
               center={false}
             />
 
-            <Grid container spacing={2.5} sx={{ mb: 3 }}>
-              {INSURANCE_TYPES.map((type, i) => {
-                const Icon = type.icon
-                return (
-                  <Grid item xs={12} key={type.title}>
-                    <ScrollReveal delay={i * 0.1}>
-                      <Box
-                        sx={{
-                          p: 2.5, borderRadius: 2.5, background: '#fff',
-                          border: '1px solid rgba(11,31,58,0.07)',
-                          boxShadow: '0 2px 12px rgba(11,31,58,0.05)',
-                          display: 'flex', gap: 2, alignItems: 'flex-start',
-                        }}
-                      >
-                        <Box sx={{
-                          width: 44, height: 44, borderRadius: 2,
-                          background: `${type.color}15`,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                        }}>
-                          <Icon sx={{ color: type.color, fontSize: 22 }} />
-                        </Box>
-                        <Box>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main', mb: 0.5 }}>
-                            {type.title}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
-                            {type.description}
+            <Grid container spacing={2} sx={{ mb: 4 }}>
+              {LIFE_INSURANCE.map((item, i) => (
+                <Grid item xs={12} sm={6} key={item.title}>
+                  <ScrollReveal delay={i * 0.08}>
+                    <motion.div whileHover={{ y: -4 }}>
+                      <Box sx={{
+                        p: 2.5, borderRadius: 2.5, background: '#fff',
+                        border: '1px solid rgba(11,31,58,0.07)',
+                        boxShadow: '0 2px 12px rgba(11,31,58,0.05)',
+                        height: '100%',
+                      }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                          <FamilyRestroom sx={{ color: item.color, fontSize: 22 }} />
+                          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main' }}>
+                            {item.title}
                           </Typography>
                         </Box>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                          {item.description}
+                        </Typography>
                       </Box>
-                    </ScrollReveal>
-                  </Grid>
-                )
-              })}
+                    </motion.div>
+                  </ScrollReveal>
+                </Grid>
+              ))}
+            </Grid>
+
+            <SectionTitle
+              tag="General Insurance"
+              title="Protect What Matters"
+              subtitle="Safeguard your health, vehicle, business, and travels."
+              center={false}
+            />
+
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              {GENERAL_INSURANCE.map((item, i) => (
+                <Grid item xs={12} sm={6} key={item.title}>
+                  <ScrollReveal delay={i * 0.08}>
+                    <motion.div whileHover={{ y: -4 }}>
+                      <Box sx={{
+                        p: 2.5, borderRadius: 2.5, background: '#fff',
+                        border: '1px solid rgba(11,31,58,0.07)',
+                        boxShadow: '0 2px 12px rgba(11,31,58,0.05)',
+                        height: '100%',
+                      }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                          {item.title === 'Health Insurance' && <HealthAndSafety sx={{ color: item.color, fontSize: 22 }} />}
+                          {item.title === 'Motor Insurance' && <DirectionsCar sx={{ color: item.color, fontSize: 22 }} />}
+                          {item.title === 'Business Insurance' && <Business sx={{ color: item.color, fontSize: 22 }} />}
+                          {item.title === 'Travel Insurance' && <Flight sx={{ color: item.color, fontSize: 22 }} />}
+                          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main' }}>
+                            {item.title}
+                          </Typography>
+                        </Box>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                          {item.description}
+                        </Typography>
+                      </Box>
+                    </motion.div>
+                  </ScrollReveal>
+                </Grid>
+              ))}
             </Grid>
 
             <List dense>
@@ -105,7 +173,6 @@ export default function Insurance() {
             </List>
           </Grid>
 
-          {/* Right: Form */}
           <Grid item xs={12} md={6}>
             <ScrollReveal direction="left">
               <Paper elevation={0} sx={{ p: { xs: 3, md: 4 }, borderRadius: 3, border: '1px solid rgba(11,31,58,0.08)', boxShadow: '0 4px 30px rgba(11,31,58,0.08)' }}>
@@ -154,13 +221,31 @@ export default function Insurance() {
                             />
                           </Grid>
                           <Grid item xs={12}>
+                            <TextField
+                              fullWidth select label="Insurance Type" value={form.insuranceType}
+                              onChange={(e) => setForm({ ...form, insuranceType: e.target.value })}
+                              error={!!errors.insuranceType} helperText={errors.insuranceType}
+                              required
+                            >
+                              <MenuItem value="Term Plan">Term Plan</MenuItem>
+                              <MenuItem value="Child Plan">Child Plan</MenuItem>
+                              <MenuItem value="Pension Plan">Pension Plan</MenuItem>
+                              <MenuItem value="Investment Plan">Investment Plan</MenuItem>
+                              <MenuItem value="Health Insurance">Health Insurance</MenuItem>
+                              <MenuItem value="Motor Insurance">Motor Insurance</MenuItem>
+                              <MenuItem value="Business Insurance">Business Insurance</MenuItem>
+                              <MenuItem value="Travel Insurance">Travel Insurance</MenuItem>
+                            </TextField>
+                          </Grid>
+                          <Grid item xs={12}>
                             <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
                               <Button
                                 type="submit" variant="contained" color="secondary"
-                                fullWidth size="large" endIcon={<Send />}
+                                fullWidth size="large" endIcon={loading ? <CircularProgress size={20} color="inherit" /> : <Send />}
                                 sx={{ fontWeight: 700, py: 1.5 }}
+                                disabled={loading}
                               >
-                                Get Free Quote
+                                {loading ? 'Submitting...' : 'Get Free Quote'}
                               </Button>
                             </motion.div>
                           </Grid>
@@ -202,6 +287,17 @@ export default function Insurance() {
           </Grid>
         </Grid>
       </Container>
+
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={6000}
+        onClose={() => setToast({ ...toast, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setToast({ ...toast, open: false })} severity={toast.severity} sx={{ width: '100%' }}>
+          {toast.message}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }
