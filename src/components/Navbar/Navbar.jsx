@@ -16,6 +16,7 @@ const NAV_LINKS = [
   { label: 'Gold & Silver ETF', path: '/gold-silver-etf' },
   { label: 'Fixed Deposit', path: '/fixed-deposit' },
   { label: 'Insurance', path: '/insurance' },
+  { label: 'Loans', path: '/loan' },
   { label: 'PMS', path: '/pms' },
 ]
 
